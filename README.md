@@ -35,3 +35,10 @@ A key trade-off is that the code favours clarity over micro-optimisation. It use
 - Isolated vertices (e.g., `{5: []}`) are supported and appear in the output with an empty adjacency list.
 - Self-loops and parallel edges are rejected with `ValueError` because the algorithm assumes a simple graph.
 - The input dict must contain a key for every vertex that appears in any adjacency list. A missing key raises `ValueError`.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
